@@ -12,7 +12,7 @@ export default function Login() {
     useEffect(() => {
         let login = localStorage.getItem("login");
         if(login){
-            naviget("/dashboard");
+            naviget("/dashboard2");
         }
         let loginStatus = localStorage.getItem("loginStatus");
         if(loginStatus){
@@ -31,6 +31,7 @@ export default function Login() {
         switch(type){
             case "user":
                 setError("");
+                console.log(user)
                 setUser(e.target.value);
                 if(e.target.value === ""){
                     setError("Username has left blank");
@@ -46,10 +47,12 @@ export default function Login() {
             default:
         }
     }
- 
+    console.log(user)
     function loginSubmit(){
         if(user !== "" && pass != ""){
-            var url = "http://localhost:8888/devtest/reactjs/login.php";
+            var url = "http://localhost:8888/api/login.php";
+            //var url = "http://localhost:8888/devtest/reactjs/login.php";
+            //var url = "http://133.18.242.109/chat_kww/login_reactapi.php";
             var headers = {
                 "Accept": "application/json",
                 "Content-type": "application/json"
@@ -61,6 +64,7 @@ export default function Login() {
             fetch(url, {
                 method: "POST",
                 headers: headers,
+                credentials: "include",
                 body: JSON.stringify(Data)
             }).then((response) => response.json())
             .then((response) => {
@@ -73,7 +77,7 @@ export default function Login() {
                     setTimeout(function(){
                         localStorage.setItem("login", true);
                         localStorage.setItem('user', user);
-                        naviget("/dashboard");
+                        naviget("/dashboard2");
                     }, 5000);
                 }
             }).catch((err) => {
